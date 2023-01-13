@@ -86,17 +86,22 @@ hurricanes_in_process = {}
 
 def hurricanes_by_name(names, months, years, max_winds, areas, damages, deaths):
     for i in range(0, len(names)):
-        hurricanes_in_process = {'Name': names[i], 'Month': months[i], 'Year': years[i], 'Max Sustained Wind': max_winds[i], 'Areas Affected': areas[i], 'Damage': damages[i], 'Deaths': deaths[i]}
+        hurricanes_in_process = {'Name': names[i], 'Month': months[i], 'Year': years[i],
+                                 'Max Sustained Wind': max_winds[i], 'Areas Affected': areas[i], 'Damage': damages[i], 'Deaths': deaths[i]}
         hurricanes_by_name_completed[names[i]] = hurricanes_in_process
     return hurricanes_by_name_completed
 
+
 print('\n')
-print(hurricanes_by_name(names, months, years, max_sustained_winds, areas_affected, damages, deaths))
+print(hurricanes_by_name(names, months, years,
+      max_sustained_winds, areas_affected, damages, deaths))
 
 # 3
 # Organizing by Year
 # create a new dictionary of hurricanes with year and key
 hurricanes_by_year_completed = {}
+
+
 def hurricanes_by_year(years, hurricanes):
     last_year = 0
     for year in years:
@@ -104,14 +109,15 @@ def hurricanes_by_year(years, hurricanes):
         last_year = year
         for item in hurricanes:
             if year == hurricanes[item]['Year']:
-                hurricanes_by_year_completed.update({year: hurricanes[item]})  
+                hurricanes_by_year_completed.update({year: hurricanes[item]})
                 if last_year == year:
                     auxiliary.append(hurricanes[item])
                     hurricanes_by_year_completed.update({year: auxiliary})
                 else:
-                    auxiliary.append(hurricanes[item]) 
+                    auxiliary.append(hurricanes[item])
 
     return hurricanes_by_year_completed
+
 
 print('\n')
 hurricanes_by_year(years, hurricanes_by_name_completed)
@@ -123,6 +129,7 @@ for i in hurricanes_by_year_completed:
 # create dictionary of areas to store the number of hurricanes involved in
 hmt_areas_affected_completed = {}
 
+
 def hmt_areas_affected(areas_effected):
     auxiliary = []
     for areas in areas_effected:
@@ -130,18 +137,20 @@ def hmt_areas_affected(areas_effected):
             auxiliary.append(area)
 
     for area in auxiliary:
-       count = auxiliary.count(area)
-       hmt_areas_affected_completed[area] = count
-    
+        count = auxiliary.count(area)
+        hmt_areas_affected_completed[area] = count
+
     return hmt_areas_affected_completed
+
 
 print('\n')
 print(hmt_areas_affected(areas_affected))
 
-# 5 
+# 5
 # Calculating Maximum Hurricane Count
 # find most frequently affected area and the number of hurricanes involved in
 max_area_count_completed = {}
+
 
 def affected_areas_count(ares_times):
     max_area = ''
@@ -154,6 +163,7 @@ def affected_areas_count(ares_times):
 
     return max_area_count_completed
 
+
 print('\n')
 print(affected_areas_count(hmt_areas_affected_completed))
 
@@ -161,16 +171,46 @@ print(affected_areas_count(hmt_areas_affected_completed))
 # Calculating the Deadliest Hurricane
 # find highest mortality hurricane and the number of deaths
 
+max_deadliest_count_completed = {}
+
+
+def deadliest_count(deaths):
+    max_deaths = max(deaths)
+    for name, items in hurricanes_by_name_completed.items():
+        for category, values in items.items():
+            if category == 'Deaths' and values == max_deaths:
+                max_deadliest_count_completed[name] = max_deaths
+    return max_deadliest_count_completed
+
+
+print('\n')
+print(deadliest_count(deaths))
+
 # 7
 # Rating Hurricanes by Mortality
-
-
 # categorize hurricanes in new dictionary with mortality severity as key
+mortality_scale = {0: 0,
+                   1: 100,
+                   2: 500,
+                   3: 1000,
+                   4: 10000}
+hurricanes_by_mortality_completed = {}
 
+def hurricanes_by_mortality(hurricanes, scales):
+    for name, hurricane in hurricanes.items():
+        for category, item in hurricane.items():
+            if category == 'Deaths':
+                for scale, deaths in scales.items():
+                    if item >= deaths:
+                        hurricanes_by_mortality_completed[name] = scale
+    return hurricanes_by_mortality_completed
+
+print('\n')
+print(hurricanes_by_mortality(hurricanes_by_name_completed, mortality_scale))
 
 # 8 Calculating Hurricane Maximum Damage
-
 # find highest damage inducing hurricane and its total cost
+
 
 
 # 9
@@ -180,5 +220,5 @@ damage_scale = {0: 0,
                 2: 1000000000,
                 3: 10000000000,
                 4: 50000000000}
-  
+
 # categorize hurricanes in new dictionary with damage severity as key
