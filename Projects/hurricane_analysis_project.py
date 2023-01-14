@@ -87,7 +87,7 @@ hurricanes_in_process = {}
 def hurricanes_by_name(names, months, years, max_winds, areas, damages, deaths):
     for i in range(0, len(names)):
         hurricanes_in_process = {'Name': names[i], 'Month': months[i], 'Year': years[i],
-                                 'Max Sustained Wind': max_winds[i], 'Areas Affected': areas[i], 'Damage': damages[i], 'Deaths': deaths[i]}
+                                 'Max Sustained Wind': max_winds[i], 'Areas Affected': areas[i], 'Damage': updated_damages[i], 'Deaths': deaths[i]}
         hurricanes_by_name_completed[names[i]] = hurricanes_in_process
     return hurricanes_by_name_completed
 
@@ -210,7 +210,20 @@ print(hurricanes_by_mortality(hurricanes_by_name_completed, mortality_scale))
 
 # 8 Calculating Hurricane Maximum Damage
 # find highest damage inducing hurricane and its total cost
+max_damage_completed = {}
+def max_damage(hurricanes):
+    max_damage_count = 0
+    for name, info in hurricanes.items():
+        for category, value in info.items():
+            if category == 'Damage' and value is not 'Damages not recorded':
+                if  float(value) > max_damage_count:
+                    max_damage_count = float(value)
+                    name_max_damage = name
+    max_damage_completed[name_max_damage] = max_damage_count
+    return max_damage_completed
 
+print('\n')
+print(max_damage(hurricanes_by_name_completed))
 
 
 # 9
@@ -221,4 +234,17 @@ damage_scale = {0: 0,
                 3: 10000000000,
                 4: 50000000000}
 
-# categorize hurricanes in new dictionary with damage severity as key
+damage_scale_completed = {}
+def damage_scales(hurricanes, scales):
+    for name, info in hurricanes.items():
+        for category, value in info.items():
+            if category == 'Damage' and value is not 'Damages not recorded':
+                for scale, damage in scales.items():
+                    if value >= damage:
+                        damage_scale_completed[name] = scale
+            elif category == 'Damage' and value is 'Damages not recorded':
+                damage_scale_completed[name] = 'Damages not recorded'
+    return damage_scale_completed          
+
+print('\n')
+print(damage_scales(hurricanes_by_name_completed, damage_scale))
