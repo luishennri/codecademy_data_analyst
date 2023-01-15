@@ -196,6 +196,7 @@ mortality_scale = {0: 0,
                    4: 10000}
 hurricanes_by_mortality_completed = {}
 
+
 def hurricanes_by_mortality(hurricanes, scales):
     for name, hurricane in hurricanes.items():
         for category, item in hurricane.items():
@@ -205,22 +206,26 @@ def hurricanes_by_mortality(hurricanes, scales):
                         hurricanes_by_mortality_completed[name] = scale
     return hurricanes_by_mortality_completed
 
+
 print('\n')
 print(hurricanes_by_mortality(hurricanes_by_name_completed, mortality_scale))
 
 # 8 Calculating Hurricane Maximum Damage
 # find highest damage inducing hurricane and its total cost
 max_damage_completed = {}
+
+
 def max_damage(hurricanes):
     max_damage_count = 0
     for name, info in hurricanes.items():
         for category, value in info.items():
             if category == 'Damage' and value is not 'Damages not recorded':
-                if  float(value) > max_damage_count:
+                if float(value) > max_damage_count:
                     max_damage_count = float(value)
                     name_max_damage = name
     max_damage_completed[name_max_damage] = max_damage_count
     return max_damage_completed
+
 
 print('\n')
 print(max_damage(hurricanes_by_name_completed))
@@ -235,6 +240,8 @@ damage_scale = {0: 0,
                 4: 50000000000}
 
 damage_scale_completed = {}
+
+
 def damage_scales(hurricanes, scales):
     for name, info in hurricanes.items():
         for category, value in info.items():
@@ -244,7 +251,8 @@ def damage_scales(hurricanes, scales):
                         damage_scale_completed[name] = scale
             elif category == 'Damage' and value is 'Damages not recorded':
                 damage_scale_completed[name] = 'Damages not recorded'
-    return damage_scale_completed          
+    return damage_scale_completed
+
 
 print('\n')
 print(damage_scales(hurricanes_by_name_completed, damage_scale))
